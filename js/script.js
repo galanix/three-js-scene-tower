@@ -199,7 +199,67 @@ var groupCastle = new THREE.Object3D();//create an empty container
 				// groupCastle.add(castleMesh);
 		});
 	
+	var barrelTexture = new THREE.Texture();
+loader.load("model/test_barrel/barrel.jpg", function(image){
+		barrelTexture.image = image;
+		barrelTexture.needsUpdate = true;
+		barrelTexture.wrapS = castleTexture.wrapT = THREE.RepeatWrapping;
+		barrelTexture.offset.set(0,0);
+		barrelTexture.repeat.set(1,1);
+});
+var kek = [];
+for(var i = 5; i < 9; i++){
+
+objLoader.load("model/test_barrel/barrelkekkek.obj", function(object, materials){
+				var material2 = new THREE.MeshPhongMaterial({ shininess: 20,map: barrelTexture});
+				console.log(object);
+
+				object.traverse(function( child ){
+								if( child instanceof THREE.Mesh ){
+									// var materials = child.material.materials;
+									child.material = material2;
+									// materials.map = castleTexture;
+									child.castShadow = true;
+									child.receiveShadow = true;
+								}
+							});
+
+								object.position.x = Math.floor((Math.random() * 70) + 1) * i;
+								object.position.z = Math.floor((Math.random() * 70) + 1) * i;
+								object.position.y = 0;
+								console.log(object.position);
+								object.scale.set(3, 3, 3);
+								scene.add(object);
+});
+}
+
+
+objLoader.load("model/test_barrel/blue_barrel_ready.obj", function(object, materials){
+				var material2 = new THREE.MeshPhongMaterial({ shininess: 20, color: 0x0000ff});
+				console.log(object);
+
+				object.traverse(function( child ){
+								if( child instanceof THREE.Mesh ){
+									// var materials = child.material.materials;
+									child.material = material2;
+									// materials.map = castleTexture;
+									child.castShadow = true;
+									child.receiveShadow = true;
+								}
+							});
+
+								object.position.x = -150;
+								object.position.z = -150;
+								object.position.y = 0;
+								console.log(object.position);
+								object.scale.set(3, 3, 3);
+								scene.add(object);
+});
+
+
+
 	//FOREST
+
 // Helper function to transform the vertices and faces
 function newTreeGeometry(tree, isTwigs) {
   var output = new THREE.Geometry();
@@ -308,7 +368,16 @@ scene.add(trunkMesh); // Use your own scene
 	var controls = new THREE.OrbitControls(camera);
 		controls.autoRotate = true;
 		controls.autoRotateSpeed = 2;
-
+		controls.enableKeys = true;
+		// controls.keys = {
+		//   LEFT: 37, //left arrow
+		//   UP: 38, // up arrow
+		//   RIGHT: 39, // right arrow
+		//   BOTTOM: 40 // down arrow
+		// }
+		// controls.minDistance = 100;
+		// controls.maxDistance = 400;
+		// controls.minPolarAngle = -Math.PI;
  var btn = document.getElementById("autorotate");
  btn.addEventListener("click", function(){
  		controls.autoRotate = true;
